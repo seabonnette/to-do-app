@@ -3,6 +3,7 @@ function onReady() {
   const addToDoForm = document.getElementById("addToDoForm");
   const newToDoText = document.getElementById("newToDoText");
   const toDoList = document.getElementById("toDoList");
+  const deleteButton = document.getElementById("deleteButton");
 
   // add event listener to addToDoForm to listen for the submit event
   addToDoForm.addEventListener("submit", event => {
@@ -30,6 +31,22 @@ function onReady() {
 
     // clear the text from the input box so the user doesn't have to
     newToDoText.value = "";
+
+  });
+
+  deleteButton.addEventListener("click", event => {
+
+    let toDos = document.getElementsByTagName("li");
+
+    for (var i = 0; i < toDos.length; i++) {
+
+      if (toDos.item(i).checked == true) {
+
+        toDos.item(i).remove();
+
+      }
+
+    }
 
   });
 }
