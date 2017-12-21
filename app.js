@@ -37,12 +37,14 @@ function onReady() {
   deleteButton.addEventListener("click", event => {
 
     let toDos = document.getElementsByTagName("li");
+    console.log(toDos[0]);
+    console.log(toDos[0].children);
 
-    for (var i = 0; i < toDos.length; i++) {
+    for (var i = toDos.length - 1; i >= 0; i--) {
 
-      if (toDos.item(i).checked == true) {
+      if (toDos[i].children[0].checked == true) {
 
-        toDos.item(i).remove();
+        toDos[i].remove();
 
       }
 
