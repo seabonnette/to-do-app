@@ -1,4 +1,7 @@
 function onReady() {
+  // define identifier for to-toDos
+  let id = 0;
+
   // define initial state of empty array and DOM elements
   let toDos = [];
 
@@ -14,13 +17,18 @@ function onReady() {
 
     toDos.push({
       title: newToDoText.value,
-      complete: false
+      complete: false,
+      id: id
     });
 
+    id++;
     newToDoText.value = '';
 
     renderTheUI();
+  }
 
+  function deleteToDo(id) {
+    toDos = toDos.filter(item => item.id !== id);
   }
 
   function renderTheUI() {
@@ -40,15 +48,25 @@ function onReady() {
       const title = document.createElement('span');
       title.textContent = toDo.title;
 
+      // create delete button for each to-do
+      const deleteButton = document.createElement('button');
+      deleteButton.innerHTML = "Delete";
+
       newToDo.appendChild(checkbox);
       newToDo.appendChild(title);
+      newToDo.appendChild(deleteButton);
 
       toDoList.appendChild(newToDo);
 
-    });
+      // add event listener for deleteButton
+      deleteButton.addEventListener('click', event => {
+        deleteToDo(toDo.id);
+        renderTheUI();
+      });
+    })
   }
 
-  // add event listener
+  // add event listener for to-do form
   addToDoForm.addEventListener('submit', event => {
     event.preventDefault();
     createNewToDo();
