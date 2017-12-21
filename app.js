@@ -1,37 +1,62 @@
 function onReady() {
-  // select form, input, and ul and assign to variables for later use
-  const addToDoForm = document.getElementById("addToDoForm");
-  const newToDoText = document.getElementById("newToDoText");
-  const toDoList = document.getElementById("toDoList");
+  // define initial state of empty array and DOM elements
+  let toDos = [];
 
-  // add event listener to addToDoForm to listen for the submit event
-  addToDoForm.addEventListener("submit", event => {
+  const addToDoForm = document.getElementById('addToDoForm');
+  const newToDoText = document.getElementById('newToDoText');
+  const toDoList = document.getElementById('toDoList');
 
-    // prevent default behavior of page reload when submit event is triggered
+  // function to update the array of to-dos
+  // called with event listener on the HTML form
+  function createNewToDo() {
+    // if user attempts to add an empty to-do, quit
+    if (!newToDoText.value) {return;}
+
+    toDos.push({
+      title: newToDoText.value,
+      complete: false
+    });
+
+    newToDoText.value = '';
+
+    renderTheUI();
+
+  }
+
+  function renderTheUI() {
+    const toDoList = document.getElementById('toDoList');
+
+    toDoList.textContent = '';
+
+    toDos.forEach(function(toDo){
+      // create new <li> element for the to-do
+      const newToDo = document.createElement('li');
+
+      // create checkbox for the new to-do
+      const checkbox = document.createElement('input');
+      checkbox.type = "checkbox";
+
+      // create title for to-do
+      const title = document.createElement('span');
+      title.textContent = toDo.title;
+
+      newToDo.appendChild(checkbox);
+      newToDo.appendChild(title);
+
+      toDoList.appendChild(newToDo);
+
+    });
+  }
+
+  // add event listener
+  addToDoForm.addEventListener('submit', event => {
     event.preventDefault();
-
-    // get the text input when submit event is triggered
-    let title = newToDoText.value;
-
-    // create a new list item
-    let newLi = document.createElement("li");
-
-    // create new input and set its type to checkbox
-    let checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-
-    // make the title of the new list item the title input from the user
-    // also attach the checkbox to the list item
-    newLi.textContent = title;
-    newLi.appendChild(checkbox);
-
-    // attach new list item to the unordered list
-    toDoList.appendChild(newLi);
-
-    // clear the text from the input box so the user doesn't have to
-    newToDoText.value = "";
-
+    createNewToDo();
+    newToDoText.value = ''; // clear the text input for user
   });
+
+  renderTheUI();
+
 }
 
 window.onload = function() {
